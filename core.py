@@ -8,6 +8,7 @@ from scrapy.settings import Settings
 
 def spider_closing(spider):
     """Activates on spider closed signal"""
+    log.msg("Closing reactor", level=log.INFO)
     reactor.stop()
 
 log.start(loglevel=log.DEBUG)
