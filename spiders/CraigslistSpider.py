@@ -2,8 +2,8 @@ import scrapy
 
 class CraigslistItem(scrapy.Item):
     """Item object to store name, link, date"""
-    name = scrapy.Field()
-    link = scrapy.Field()
+    title = scrapy.Field()
+    url = scrapy.Field()
     date = scrapy.Field()
 
 class CraigslistSpider(scrapy.Spider):
@@ -12,15 +12,15 @@ class CraigslistSpider(scrapy.Spider):
     """
     name = "cl-spider"
     allowed_domains = "craigslist.org"
-    start_urls = ['http://newyork.craigslist.org/tia/']
+    start_urls = ['http://newyork.craigslist.org/search/tia#list']
 
     def parse(self, response):
-        sites = response.css('section.body div#toc_rows div.content p.row span.pl')
+        sites = response.css('#searchform > div.rightpane > div.content > p')
         items = []
         for site in sites:
             item = CraigslistItem()
-            item['name'] = site.css('a::text').extract()
-            item['link'] = site.css('a::attr(href)').extract()
+            item['title'] = site.css('a::text').extract()
+            item['url'] = site.css('a::attr(href)').extract()
             item['date'] = site.css('span.date::text').extract()
             items.append(item)
 

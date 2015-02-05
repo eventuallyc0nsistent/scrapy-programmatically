@@ -30,6 +30,10 @@ for spider in TO_CRAWL:
 
     # crawl responsibly
     settings.set("USER_AGENT", "Kiran Koduru (+http://kirankoduru.github.io)")
+
+    # Add to items pipelines
+    settings.set("ITEM_PIPELINES", {'pipelines.AddTablePipeline': 100})
+
     crawler = Crawler(settings)
     crawler_obj = spider()
     RUNNING_CRAWLERS.append(crawler_obj)
